@@ -1,0 +1,2 @@
+D:/Jithin/BPC Flutter/MaterniShop/user/android/app/.cxx/Debug/2p2qrs73/x86/CMakeFiles/edit_cache.dir
+D:/Jithin/BPC Flutter/MaterniShop/user/android/app/.cxx/Debug/2p2qrs73/x86/CMakeFiles/rebuild_cache.dir
