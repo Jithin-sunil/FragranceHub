@@ -1,0 +1,68 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "admin_maternityapp",
+            "cwd": "admin_maternityapp",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "admin_maternityapp (profile mode)",
+            "cwd": "admin_maternityapp",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "admin_maternityapp (release mode)",
+            "cwd": "admin_maternityapp",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "shop_maternityapp",
+            "cwd": "shop_maternityapp",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "shop_maternityapp (profile mode)",
+            "cwd": "shop_maternityapp",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "shop_maternityapp (release mode)",
+            "cwd": "shop_maternityapp",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "user_maternityapp",
+            "cwd": "user_maternityapp",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "user_maternityapp (profile mode)",
+            "cwd": "user_maternityapp",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "user_maternityapp (release mode)",
+            "cwd": "user_maternityapp",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

@@ -97,60 +97,60 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     }
   }
 
-  Future<void> _generateAndDownloadBill() async {
-    final pdf = pw.Document();
-    final orderDate = DateTime.parse(orderDetails!['created_at']);
-    final formattedDate = DateFormat('MMMM dd, yyyy').format(orderDate);
-    final formattedTime = DateFormat('hh:mm a').format(orderDate);
+  // Future<void> _generateAndDownloadBill() async {
+  //   final pdf = pw.Document();
+  //   final orderDate = DateTime.parse(orderDetails!['created_at']);
+  //   final formattedDate = DateFormat('MMMM dd, yyyy').format(orderDate);
+  //   final formattedTime = DateFormat('hh:mm a').format(orderDate);
 
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) => pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Text("FragranceHub Order Bill",
-                style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
-            pw.SizedBox(height: 20),
-            pw.Text("Order #${widget.orderId}", style: pw.TextStyle(fontSize: 18)),
-            pw.Text("Date: $formattedDate at $formattedTime"),
-            pw.Text("Status: ${getOrderStatusText(orderItems['status'])}"),
-            pw.SizedBox(height: 20),
-            pw.Text("Item Details",
-                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-            pw.Divider(),
-            pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-                pw.Text(orderItems['name']),
-                pw.Text("Qty: ${orderItems['quantity']}"),
-                pw.Text("₹${orderItems['price']}"),
-              ],
-            ),
-            pw.Divider(),
-            pw.SizedBox(height: 20),
-            pw.Text("Total",
-                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-            pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-                pw.Text("Amount Paid"),
-                pw.Text("₹${orderItems['price'] * orderItems['quantity']}"),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+  //   pdf.addPage(
+  //     pw.Page(
+  //       build: (pw.Context context) => pw.Column(
+  //         crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //         children: [
+  //           pw.Text("FragranceHub Order Bill",
+  //               style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+  //           pw.SizedBox(height: 20),
+  //           pw.Text("Order #${widget.orderId}", style: pw.TextStyle(fontSize: 18)),
+  //           pw.Text("Date: $formattedDate at $formattedTime"),
+  //           pw.Text("Status: ${getOrderStatusText(orderItems['status'])}"),
+  //           pw.SizedBox(height: 20),
+  //           pw.Text("Item Details",
+  //               style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+  //           pw.Divider(),
+  //           pw.Row(
+  //             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               pw.Text(orderItems['name']),
+  //               pw.Text("Qty: ${orderItems['quantity']}"),
+  //               pw.Text("₹${orderItems['price']}"),
+  //             ],
+  //           ),
+  //           pw.Divider(),
+  //           pw.SizedBox(height: 20),
+  //           pw.Text("Total",
+  //               style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+  //           pw.Row(
+  //             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               pw.Text("Amount Paid"),
+  //               pw.Text("₹${orderItems['price'] * orderItems['quantity']}"),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
 
-    final directory = await getExternalStorageDirectory();
-    final file = File("${directory!.path}/Order_${widget.orderId}_Bill.pdf");
-    await file.writeAsBytes(await pdf.save());
-    OpenFile.open(file.path);
+  //   final directory = await getExternalStorageDirectory();
+  //   final file = File("${directory!.path}/Order_${widget.orderId}_Bill.pdf");
+  //   await file.writeAsBytes(await pdf.save());
+  //   OpenFile.open(file.path);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Bill downloaded to ${file.path}")),
-    );
-  }
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(content: Text("Bill downloaded to ${file.path}")),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -191,54 +191,131 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   }
 
   Widget _buildOrderStatusCard() {
-    final orderDate = DateTime.parse(orderDetails!['created_at']);
-    final formattedDate = DateFormat('MMMM dd, yyyy').format(orderDate);
-    final formattedTime = DateFormat('hh:mm a').format(orderDate);
+  final orderDate = DateTime.parse(orderDetails!['created_at']);
+  final formattedDate = DateFormat('MMMM dd, yyyy').format(orderDate);
+  final formattedTime = DateFormat('hh:mm a').format(orderDate);
 
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+  return Card(
+    elevation: 2,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    child: Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Order Status',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: getOrderStatusColor(orderItems['status']).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  getOrderStatusText(orderItems['status']),
+                  style: TextStyle(
+                    color: getOrderStatusColor(orderItems['status']),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          Text(
+            'Placed on: $formattedDate at $formattedTime',
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          ),
+          SizedBox(height: 16),
+          Container(
+            height: 100,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Order Status',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+                _buildStatusStep(
+                  icon: Icons.shopping_cart,
+                  title: 'Placed',
+                  isActive: true,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: getOrderStatusColor(orderItems['status']).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    getOrderStatusText(orderItems['status']),
-                    style: TextStyle(
-                      color: getOrderStatusColor(orderItems['status']),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                  ),
+                _buildConnector(isActive: orderItems['status'] >= 1),
+                _buildStatusStep(
+                  icon: Icons.build,
+                  title: 'Processing',
+                  isActive: orderItems['status'] >= 1,
+                ),
+                _buildConnector(isActive: orderItems['status'] >= 2),
+                _buildStatusStep(
+                  icon: Icons.local_shipping,
+                  title: 'Shipped',
+                  isActive: orderItems['status'] >= 2,
+                ),
+                _buildConnector(isActive: orderItems['status'] >= 3),
+                _buildStatusStep(
+                  icon: Icons.check_circle,
+                  title: 'Delivered',
+                  isActive: orderItems['status'] >= 3,
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            Text(
-              'Placed on: $formattedDate at $formattedTime',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            ),
-            SizedBox(height: 16),
-            _buildOrderTimeline(orderItems['status']),
-          ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildStatusStep({
+  required IconData icon,
+  required String title,
+  required bool isActive,
+}) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isActive ? Colors.green.withOpacity(0.1) : Colors.grey.withOpacity(0.1),
+        ),
+        child: Icon(
+          icon,
+          size: 20,
+          color: isActive ? Colors.green : Colors.grey,
         ),
       ),
-    );
-  }
+      SizedBox(height: 8),
+      Text(
+        title,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+          color: isActive ? Colors.black87 : Colors.grey[600],
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildConnector({required bool isActive}) {
+  return Expanded(
+    child: Container(
+      height: 2,
+      margin: EdgeInsets.symmetric(horizontal: 4),
+      color: isActive ? Colors.green : Colors.grey[300],
+    ),
+  );
+}
 
   Widget _buildOrderItemCard() {
     return Card(
